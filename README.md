@@ -57,3 +57,5 @@ Basically `mongosetup` service is unsued after setup. My gut feeling is to move 
 * https://docs.docker.com/compose/startup-order/
 * http://stackoverflow.com/questions/31138631/configuring-mongodb-replica-set-from-docker-compose
 * https://github.com/soldotno/elastic-mongo/blob/master/docker-compose.yml
+
+See more @ `ENV.md`
