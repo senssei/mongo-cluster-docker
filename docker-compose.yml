@@ -5,7 +5,7 @@ services:
         image: mongo
         ports:
             - "30002:27017"
-        command: mongod --replSet my-mongo-set --rest
+        command: mongod --replSet rs1 --rest
         restart: always
 
     mongo3:
@@ -13,7 +13,7 @@ services:
         image: mongo
         ports:
             - "30003:27017"
-        command: mongod --replSet my-mongo-set --rest
+        command: mongod --replSet rs1 --rest
         restart: always 
 
     mongo1:
@@ -21,7 +21,7 @@ services:
         image: mongo
         ports:
             - "30001:27017"
-        command: mongod --replSet my-mongo-set --rest
+        command: mongod --replSet rs1 --rest
         links:
             - mongo2:mongo2
             - mongo3:mongo3
@@ -35,4 +35,9 @@ services:
             - mongo3:mongo3
         volumes:
             - ./scripts:/scripts
+        environment: 
+            - MONGO1=mongo1
+            - MONGO2=mongo2
+            - MONGO3=mongo3
+            - RS=rs1
         entrypoint: [ "/scripts/setup.sh" ]
