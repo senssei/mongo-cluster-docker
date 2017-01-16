@@ -5,47 +5,64 @@ Simple 3 node replica mongodb on offcial `mongo` docker image using `docker-comp
 # Run
 
 ```
-docker-compose up
+>docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml up
 ```
 
 # Tests
 > Manually for the time being
 
-1. Connect to node1 *master*.
-```bash
-docker exec -it mongo1 mongo
-```
-```js
-my-mongo-set:PRIMARY> db = (new Mongo('localhost:27017')).getDB('test')
-test
-```
-2. Save document and query.
-```js
-my-mongo-set:PRIMARY> db.mycollection.insert({name : 'sample'})
-WriteResult({ "nInserted" : 1 })
+0. Core tests
 
-my-mongo-set:PRIMARY> db.mycollection.find()
-{ "_id" : ObjectId("586a68612edbf31a76ebc364"), "name" : "sample" }
+Basic *replica* test on *rs1* replica set (data nodes), `mongo-1-1`
+```js
+rs.status();
 ```
 
-3. Same for node2, ...
+this should return in `members` 3 nodes.
+
+Basic *sharding* test on *router* (mongos), `mongo-router`
 ```js
-my-mongo-set:PRIMARY> db2 = (new Mongo('mongo2:27017')).getDB('test')
-test
-my-mongo-set:PRIMARY> db2.setSlaveOk()
-my-mongo-set:PRIMARY> db2.mycollection.find()
-{ "_id" : ObjectId("586a68612edbf31a76ebc364"), "name" : "sample" }
-my-mongo-set:PRIMARY> db.mycollection.insert({name : 'sample2'})
-WriteResult({ "nInserted" : 1 })
-my-mongo-set:PRIMARY> db2.mycollection.find()
-{ "_id" : ObjectId("586a68612edbf31a76ebc364"), "name" : "sample" }
-{ "_id" : ObjectId("586a68812edbf31a76ebc365"), "name" : "sample2" }
+sh.status();
 ```
 
+this should return something similar to:
+
+```
+--- Sharding Status --- 
+  sharding version: {
+	"_id" : 1,
+	"minCompatibleVersion" : 5,
+	"currentVersion" : 6,
+	"clusterId" : ObjectId("587d306454828b89adaca524")
+}
+  shards:
+  active mongoses:
+	"3.4.1" : 1
+  balancer:
+	Currently enabled:  yes
+	Currently running:  yes
+		Balancer lock taken at Mon Jan 16 2017 22:18:53 GMT+0100 by ConfigServer:Balancer
+	Failed balancer rounds in last 5 attempts:  0
+	Migration Results for the last 24 hours: 
+		No recent migrations
+  databases:
+
+```
 
 # Issues and limitations
 
-Basically `mongosetup` service is unsued after setup. My gut feeling is to move this somewhere else. :)
+It's sometimes stuck on 'mongo-router         | 2017-01-16T21:29:48.573+0000 W NETWORK  [replSetDistLockPinger] No primary detected for
+set cnf-serv'. It's because quite random order in `docker-compose`.
+
+My workaround was just to kill all containers related.
+
+```
+docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml rm -f
+```
+
+Please pull request. :)
+
+Basically `mongosetup` service is now splitted to multiple `yml` files. :)
 
 # Reference
 
@@ -59,3 +76,5 @@ Basically `mongosetup` service is unsued after setup. My gut feeling is to move 
 * https://github.com/soldotno/elastic-mongo/blob/master/docker-compose.yml
 
 See more @ `ENV.md`
+
+MIT @ `LICENSE`

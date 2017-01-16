@@ -1,0 +1,46 @@
+version: '2'
+services:
+    mongo-cnf-2:
+        container_name: "mongo-cnf-2"
+        image: mongo
+        ports:
+            - "30002:27017"
+        command: mongod --replSet cnf-serv --rest --configsvr --port 27017
+        restart: always
+
+    mongo-cnf-3:
+        container_name: "mongo-cnf-3"
+        image: mongo
+        ports:
+            - "30003:27017"
+        command: mongod --replSet cnf-serv --rest --configsvr --port 27017
+        restart: always 
+
+    mongo-cnf-1:
+        container_name: "mongo-cnf-1"
+        image: mongo
+        ports:
+            - "30001:27017"
+        command: mongod --replSet cnf-serv --rest --configsvr --port 27017
+        links:
+            - mongo-cnf-2:mongo-cnf-2
+            - mongo-cnf-3:mongo-cnf-3
+        restart: always
+
+    mongo-cnf-setup:
+        image: mongo
+        depends_on:
+            - "mongo-cnf-1"
+        links:
+            - mongo-cnf-1:mongo-cnf-1
+            - mongo-cnf-2:mongo-cnf-2
+            - mongo-cnf-3:mongo-cnf-3
+        volumes:
+            - ./scripts:/scripts
+        environment: 
+            - MONGO1=mongo-cnf-1
+            - MONGO2=mongo-cnf-2
+            - MONGO3=mongo-cnf-3
+            - RS=cnf-serv
+            - PORT=27017
+        entrypoint: [ "/scripts/setup_cnf.sh" ]

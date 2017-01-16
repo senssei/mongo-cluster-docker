@@ -1,0 +1,47 @@
+version: '2'
+services:
+    mongo-2-2:
+        container_name: "mongo-2-2"
+        image: mongo
+        ports:
+            - "30042:27017"
+        command: mongod --replSet rs2 --shardsvr --port 27017
+        restart: always
+
+    mongo-2-3:
+        container_name: "mongo-2-3"
+        image: mongo
+        ports:
+            - "30043:27017"
+        command: mongod --replSet rs2 --shardsvr --port 27017
+        restart: always 
+
+    mongo-2-1:
+        container_name: "mongo-2-1"
+        image: mongo
+        ports:
+            - "30041:27017"
+        command: mongod --replSet rs2 --shardsvr --port 27017
+        links:
+            - mongo-2-2:mongo-2-2
+            - mongo-2-3:mongo-2-3
+        restart: always
+
+    mongo-rs2-setup:
+        image: mongo
+        depends_on:
+            - "mongo-2-1"
+        links:
+            - mongo-2-1:mongo-2-1
+            - mongo-2-2:mongo-2-2
+            - mongo-2-3:mongo-2-3
+        volumes:
+            - ./scripts:/scripts
+        environment: 
+            - MONGO1=mongo-2-1
+            - MONGO2=mongo-2-2
+            - MONGO3=mongo-2-3
+            - RS=rs2
+        entrypoint: [ "/scripts/setup.sh" ]
+
+        
