@@ -37,7 +37,7 @@ services:
             - MONGO13=mongo-1-3
             - MONGO21=mongo-2-1
             - MONGO22=mongo-2-2
-            - MONGO33=mongo-2-3
+            - MONGO23=mongo-2-3
             - RS1=rs1
             - RS2=rs2
             - PORT=27017
