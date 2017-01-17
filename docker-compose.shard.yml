@@ -45,3 +45,4 @@ services:
             - PORT2=27017
             - PORT3=27017
         entrypoint: [ "/scripts/init_shard.sh" ]
+        restart: on-failure:20
