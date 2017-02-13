@@ -2,10 +2,15 @@
 
 Simple 3 node replica mongodb on offcial `mongo` docker image using `docker-compose`.
 
+For details description, steps and discussion go to:
+
+1. https://warzycha.pl/mongo-db-sharding-docker-example/
+2. https://warzycha.pl/mongo-db-location-based-segments/
+
 # Run
 
 ```
->docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml up
+docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml up
 ```
 
 # Tests
@@ -48,6 +53,12 @@ this should return something similar to:
   databases:
 
 ```
+
+# Sharding configuration
+
+Connect to 'mongos' router and run `queries/shard-status.js` for shard status.
+
+To establish location based partitioning on it just run `queries/init.js`.
 
 # Issues and limitations
 
