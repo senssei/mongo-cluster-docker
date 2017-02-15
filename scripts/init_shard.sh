@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 mongodb1=`ping -c 1 ${MONGOS} | head -1  | cut -d "(" -f 2 | cut -d ")" -f 1`
 
