@@ -5,7 +5,7 @@ This is a simple 3 node replica mongodb setup based on official `mongo` docker i
 For details description, steps and discussion go to:
 
 1. https://warzycha.pl/mongo-db-sharding-docker-example/
-2. https://warzycha.pl/mongo-db-location-based-segments/
+2. https://warzycha.pl/mongo-db-shards-by-location/
 
 # Run
 
