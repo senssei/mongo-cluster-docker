@@ -6,9 +6,9 @@ services:
         ports:
             - "30031:27017"
         depends_on:
-            - "mongo-cnf-1"
-            - "mongo-1-1"
-            - "mongo-2-1"
+            - "mongo-rs1-setup"
+            - "mongo-rs2-setup"
+            - "mongo-cnf-setup"
         links:
             - mongo-cnf-1:mongo-cnf-1
             - mongo-cnf-2:mongo-cnf-2
@@ -23,6 +23,7 @@ services:
         restart: always
 
     mongo-shard-setup:
+        container_name: "mongo-shard-setup"
         image: mongo
         depends_on:
             - "mongo-router"
@@ -44,5 +45,5 @@ services:
             - PORT1=27017
             - PORT2=27017
             - PORT3=27017
-        entrypoint: [ "/scripts/init_shard.sh" ]
+        entrypoint: [ "/scripts/init-shard.sh" ]
         restart: on-failure:20
