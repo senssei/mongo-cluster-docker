@@ -5,7 +5,7 @@ services:
         image: mongo
         ports:
             - "30012:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017
+        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
         restart: always
 
     mongo-1-3:
@@ -13,7 +13,7 @@ services:
         image: mongo
         ports:
             - "30013:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017
+        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
         restart: always 
 
     mongo-1-1:
@@ -21,16 +21,19 @@ services:
         image: mongo
         ports:
             - "30011:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017
+        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
         links:
             - mongo-1-2:mongo-1-2
             - mongo-1-3:mongo-1-3
         restart: always
 
     mongo-rs1-setup:
+        container_name: "mongo-rs1-setup"
         image: mongo
         depends_on:
             - "mongo-1-1"
+            - "mongo-1-2"
+            - "mongo-1-3"
         links:
             - mongo-1-1:mongo-1-1
             - mongo-1-2:mongo-1-2
