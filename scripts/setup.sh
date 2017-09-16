@@ -1,8 +1,8 @@
 #!/bin/bash 
 
-mongodb1=`ping -c 1 ${MONGO1} | head -1  | cut -d "(" -f 2 | cut -d ")" -f 1`
-mongodb2=`ping -c 1 ${MONGO2} | head -1  | cut -d "(" -f 2 | cut -d ")" -f 1`
-mongodb3=`ping -c 1 ${MONGO3} | head -1  | cut -d "(" -f 2 | cut -d ")" -f 1`
+mongodb1=`getent hosts ${MONGO1} | awk '{ print $1 }'`
+mongodb2=`getent hosts ${MONGO2} | awk '{ print $1 }'`
+mongodb3=`getent hosts ${MONGO3} | awk '{ print $1 }'`
 
 port=${PORT:-27017}
 
