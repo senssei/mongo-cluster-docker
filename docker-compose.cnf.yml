@@ -5,7 +5,7 @@ services:
         image: mongo
         ports:
             - "30002:27017"
-        command: mongod --replSet cnf-serv --rest --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
+        command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
         restart: always
 
     mongo-cnf-3:
@@ -13,7 +13,7 @@ services:
         image: mongo
         ports:
             - "30003:27017"
-        command: mongod --replSet cnf-serv --rest --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
+        command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
         restart: always 
 
     mongo-cnf-1:
@@ -21,7 +21,7 @@ services:
         image: mongo
         ports:
             - "30001:27017"
-        command: mongod --replSet cnf-serv --rest --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
+        command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
         links:
             - mongo-cnf-2:mongo-cnf-2
             - mongo-cnf-3:mongo-cnf-3
