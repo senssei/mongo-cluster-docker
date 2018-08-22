@@ -2,7 +2,7 @@ version: '3'
 services:
     mongo-2-2:
         container_name: "mongo-2-2"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30022:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
@@ -10,7 +10,7 @@ services:
 
     mongo-2-3:
         container_name: "mongo-2-3"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30023:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
@@ -18,7 +18,7 @@ services:
 
     mongo-2-1:
         container_name: "mongo-2-1"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30021:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
@@ -29,7 +29,7 @@ services:
 
     mongo-rs2-setup:
         container_name: "mongo-rs2-setup"
-        image: mongo
+        image: mongo:4.0.1
         depends_on:
             - "mongo-2-1"
             - "mongo-2-2"

@@ -2,7 +2,7 @@ version: '3'
 services:
     mongo-cnf-2:
         container_name: "mongo-cnf-2"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30102:27017"
         command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
@@ -10,7 +10,7 @@ services:
 
     mongo-cnf-3:
         container_name: "mongo-cnf-3"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30103:27017"
         command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
@@ -18,7 +18,7 @@ services:
 
     mongo-cnf-1:
         container_name: "mongo-cnf-1"
-        image: mongo
+        image: mongo:4.0.1
         ports:
             - "30101:27017"
         command: mongod --replSet cnf-serv --configsvr --port 27017 --oplogSize 16 --noprealloc --smallfiles
@@ -29,7 +29,7 @@ services:
 
     mongo-cnf-setup:
         container_name: "mongo-cnf-setup"
-        image: mongo
+        image: mongo:4.0.1
         depends_on:
             - "mongo-cnf-1"
             - "mongo-cnf-2"
