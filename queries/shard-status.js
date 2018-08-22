@@ -1,1 +1,1 @@
-sh.status();
+sh.status(true);

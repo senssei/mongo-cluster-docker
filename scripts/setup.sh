@@ -18,6 +18,7 @@ echo setup.sh time now: `date +"%T" `
 mongo --host ${mongodb1}:${port} <<EOF
    var cfg = {
         "_id": "${RS}",
+        "protocolVersion": 1,
         "members": [
             {
                 "_id": 0,

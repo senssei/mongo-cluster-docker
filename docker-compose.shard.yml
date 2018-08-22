@@ -1,15 +1,15 @@
-version: '2'
+version: '3'
 services:
     mongo-router:
         container_name: "mongo-router"
-        image: mongo
+        image: mongo:4.0.1
         ports:
-            - "30031:27017"
+            - "30001:27017"
         depends_on:
             - "mongo-rs1-setup"
             - "mongo-rs2-setup"
             - "mongo-cnf-setup"
-        links:
+        external_links:
             - mongo-cnf-1:mongo-cnf-1
             - mongo-cnf-2:mongo-cnf-2
             - mongo-cnf-3:mongo-cnf-3
@@ -19,12 +19,12 @@ services:
             - mongo-2-1:mongo-2-1
             - mongo-2-2:mongo-2-2
             - mongo-2-3:mongo-2-3
-        command: mongos --configdb cnf-serv/mongo-cnf-1:27017,mongo-cnf-2:27017,mongo-cnf-3:27017
+        command: mongos --configdb cnf-serv/mongo-cnf-1:27017,mongo-cnf-2:27017,mongo-cnf-3:27017 --port 27017 --bind_ip 0.0.0.0
         restart: always
 
     mongo-shard-setup:
         container_name: "mongo-shard-setup"
-        image: mongo
+        image: mongo:4.0.1
         depends_on:
             - "mongo-router"
         links:
