@@ -2,15 +2,15 @@
 
 # Docker for Windows 
 
-| Key            | Value             |
-|----------------|-------------------|
-| Version        | 1.13.0-rc4        |
-| API version    | 1.25              |
-| Go version     | go1.7.3           |
-| OS type        | linux             |
-| OS             | Alpine Linux v3.4 |
-| Architecture   | amd64             |
-| Kernel version | 4.8.15-moby       |
+| Key            | Value                        |
+|----------------|------------------------------|
+| Version        | 18.06.0-ce                   |
+| API version    | 1.38 (minimum version 1.12)  |
+| Go version     | go1.10.3                     |
+| Git commit     | 0ffa825                      |
+| Built          | Wed Jul 18 19:13:46 2018     |
+| OS/Arch        | windows/amd64                |
+| Experimental   | false                        |
 
 # Linux
 

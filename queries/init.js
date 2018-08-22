@@ -12,40 +12,42 @@ db.sample.drop();
 
 db.createCollection("sample"); 
 
-db.sample.createIndex( { location: 1, _id: 1 } )
+db.sample.createIndex( { factoryId: 1 } );
+
+sh.enableSharding("test");
+
+sh.shardCollection("test.sample",{ location: 1, factoryId: 1});
 
 sh.addTagRange(
   "test.sample",
-  { "location" : "US", "_id" : MinKey },
-  { "location" : "US", "_id" : MaxKey },
+  { "location" : "US", "factoryId" : MinKey },
+  { "location" : "US", "factoryId" : MaxKey },
   "US"
 );
 
 sh.addTagRange(
   "test.sample",
-  { "location" : "EU", "_id" : MinKey },
-  { "location" : "EU", "_id" : MaxKey },
+  { "location" : "EU", "factoryId" : MinKey },
+  { "location" : "EU", "factoryId" : MaxKey },
   "EU"
-)
+);
 
 
-sh.enableSharding("test");
 
-sh.shardCollection("test.sample",{ location: 1, _id: 1 });
 
-sh.enableBalancing("test.sample");
-
-db.sample.insert({
-    "_id" : ObjectId("5787936b94afebe02398521a"),
-    "location": "US",
-    "__v" : 0
-});
-
-db.sample.insert({
-    "_id" : ObjectId("5787a08c94afebe023985224"),
-    "location": "EU",
-    "__v" : 0
-});
+sh.enableBalancing("test.sample");
+
+for(var i=0; i<100; i++){
+    db.sample.insert({
+        "location": "US",
+        "factoryId": NumberInt(i)
+    });
+    
+    db.sample.insert({
+        "location": "EU",
+        "factoryId": NumberInt(100+i)
+    });
+}
 
 sh.startBalancer();
 
